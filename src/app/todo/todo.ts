@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-
+import { TestDirective } from '../test-directive';
 @Component({
   selector: 'app-todo',
-  imports: [],
-  templateUrl: './todo.html',
-  styleUrl: './todo.scss'
+  imports: [TestDirective],
+  template: `
+    <p>todo works!</p>
+    <p>This is testing</p>
+    <p appTestDirective="pink">This is testing for rebase</p>
+  `,
 })
-export class Todo {
-
-}
+export class Todo {}
