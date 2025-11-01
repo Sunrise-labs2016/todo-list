@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   deploy:
-    name: Deploy project
+    name: Deploy project with Nginx
     permissions:
       deployments: write
     runs-on: ubuntu-latest
@@ -37,7 +37,24 @@ jobs:
           script: |
             git config --global url."https://${{ secrets.PERSONAL_GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
             cd chatg/
-            git pull origin main
+            git pull origin dev-branch
             npm ci
             npm run frontend
             pm2 restart chatg --update-env
+      - name: Update deployment Status (success)
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: '${{ github.token }}'
+          environment-url: ${{ vars.MY_APP }}
+          state: 'success'
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+      
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: '${{ github.token }}'
+          environment-url: ${{ vars.MY_APP }}
+          state: 'failure'
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
