@@ -61,6 +61,9 @@ jobs:
           port: 22
           script: |
             cd team/6000/AngularTodoList/todo-list
+            node -v
+            npm -v
+            ng --version
             git pull
             npm install
             npm run build
