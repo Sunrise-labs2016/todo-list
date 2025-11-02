@@ -57,3 +57,11 @@ jobs:
           environment-url: ${{ vars.MY_APP }}
           state: 'failure'
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Deploy to Server
+        run: |
+          git pull origin main
+            npm install
+            npm run build
+            sudo systemctl restart nginx
+          shell: bash
