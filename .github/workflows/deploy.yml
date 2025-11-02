@@ -51,12 +51,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            git config --global url."https://${{ secrets.PERSONAL_GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
+            # git config --global url."https://${{ secrets.PERSONAL_GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
             cd team/6000/AngularTodoList
             git pull origin main
-            npm ci
-            npm run frontend
-            pm2 restart chatg --update-env
+            
       - name: Update deployment Status (success)
         if: success()
         uses: chrnorm/deployment-status@v2
