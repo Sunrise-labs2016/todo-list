@@ -53,6 +53,7 @@ jobs:
           script: |
             # git config --global url."https://${{ secrets.PERSONAL_GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
             cd team/6000/AngularTodoList
+            git clone git@github.com:Sunrise-labs2016/todo-list.git
             git pull origin main
             
       - name: Update deployment Status (success)
