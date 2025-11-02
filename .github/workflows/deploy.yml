@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
-        
+
     steps:
       - name: Checkout Repository
         uses: 'actions/checkout@v2'
@@ -61,7 +61,6 @@ jobs:
           port: 22
           script: |
             cd team/6000/AngularTodoList/todo-list
-            nvm use 22.19
             git pull
             npm install
             npm run build
