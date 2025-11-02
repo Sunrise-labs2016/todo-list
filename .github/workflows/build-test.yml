@@ -1,8 +1,6 @@
 name: Build and Test
 
-on:
-  push:
-    branches: []
+on: push
 
 jobs:
   build:
@@ -33,13 +31,10 @@ jobs:
         run: npm ci
           
       - name: Run Unit Tests
-        run: npm run ci:test
+        run: npm run test
 
-      - name: Clean Distribution Directory
-        run: npm run ci:clean
-        
       - name: Build Application
-        run: npm run ci:build
+        run: npm run build
       
       - name: List Files in Distribution Directory
         run: ls -R ./dist
