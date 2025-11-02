@@ -6,13 +6,13 @@ on:
       - main
         
   pull_request:
-    branches:
-      - main
+    types:
+      - closed
   
   
 jobs:
   deploy:
-    name: Deploy project with Nginx
+    name: Deploy project
     permissions:
       deployments: write
     runs-on: ubuntu-latest
@@ -40,6 +40,20 @@ jobs:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
           SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+      - name: Set up SSH Key and Deploy my App on Server
+        # run: |
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd team/6000/AngularTodoList/todo-list
+            git pull origin main
+            npm run start
       - name: Update deployment Status (success)
         if: success()
         uses: chrnorm/deployment-status@v2
@@ -57,11 +71,3 @@ jobs:
           environment-url: ${{ vars.MY_APP }}
           state: 'failure'
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
-
-      - name: Deploy to Server
-        run: |
-          git pull origin main
-            npm install
-            npm run build
-            sudo systemctl restart nginx
-          shell: bash
