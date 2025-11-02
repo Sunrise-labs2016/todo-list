@@ -6,7 +6,7 @@
     "start": "ng serve --host 0.0.0.0 --port 8888",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --no-watch --no-progress --browsers=ChromeHeadless"
   },
   "prettier": {
     "printWidth": 100,
