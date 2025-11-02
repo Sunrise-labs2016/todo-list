@@ -52,8 +52,11 @@ jobs:
           port: 22
           script: |
             cd team/6000/AngularTodoList/todo-list
-            git pull origin main
-            npm run start
+            git pull
+            npm install
+            npm run build
+            pm2 restart {service_name} # Replace with your PM2 service name
+            
       - name: Update deployment Status (success)
         if: success()
         uses: chrnorm/deployment-status@v2
