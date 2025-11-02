@@ -16,6 +16,11 @@ jobs:
     permissions:
       deployments: write
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+        
     steps:
       - name: Checkout Repository
         uses: 'actions/checkout@v2'
@@ -40,6 +45,10 @@ jobs:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
           SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: Set up SSH Key and Deploy my App on Server
         # run: |
         uses: appleboy/ssh-action@master
@@ -56,7 +65,7 @@ jobs:
             git pull
             npm install
             npm run build
-            pm2 restart {service_name} # Replace with your PM2 service name
+            pm2 restart {root}
             
       - name: Update deployment Status (success)
         if: success()
