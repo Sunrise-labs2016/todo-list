@@ -29,6 +29,8 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
 
+RUN npm install -g @angular/cli
+
 ################################################################################
 # Create a stage for building the application.
 FROM deps as build
